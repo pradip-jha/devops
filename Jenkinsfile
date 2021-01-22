@@ -6,7 +6,7 @@ pipeline {
     DOCKER_REPO_NAME = 'pankaj2934'
     }
     stages {
-        stage('Build') {
+        stage('docker-Build') {
         steps {
             sh '''
             env
@@ -15,9 +15,14 @@ pipeline {
 
         }
         }
-        stage('Test') {
+        stage('docker-Push') {
             steps {
-                echo 'Testing..'
+
+            sh '''
+            env
+            docker push $DOCKER_REPO_NAME/$IMAGE_NAME:$IMAGE_VERSION.$BUILD_NUMBER
+            '''
+
             }
         }
         stage('Deploy') {
