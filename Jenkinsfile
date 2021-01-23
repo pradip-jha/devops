@@ -34,10 +34,14 @@ pipeline {
 
             }
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+        stage('Update yaml') {
+        steps {
+            script {
+                    echo "updating image version to $IMAGE_VERSION.$BUILD_NUMBER"
+
+                    build propagate: false, job: 'devops-k8', parameters: [string(name: 'Enter_Version_No', value: $IMAGE_VERSION.$BUILD_NUMBER)]
             }
         }
+    }
     }
 }
